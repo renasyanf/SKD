@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enkripsi & Dekripsi Teks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: 50px auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #d774a6;
+            color: #fff;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #d8afc9;
+        }
+        p {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Enkripsi & Dekripsi Teks</h2>
+        <label for="inputText">Masukkan Teks:</label>
+        <input type="text" id="inputText">
+        <button onclick="encrypt()">Enkripsi</button>
+        <button onclick="decrypt()">Dekripsi</button>
+        <p>Hasil: <span id="outputText"></span></p>
+    </div>
+
+    <script>
+        const substitution = {
+            'a': '~', 'i': '$', 'u': '^', 'e': '#', 'o': '+',
+            'A': '!', 'I': '%', 'U': '_', 'E': '*',
+        };
+
+        function encrypt() {
+            const inputText = document.getElementById("inputText").value;
+            let encryptedText = '';
+
+            for (let char of inputText) {
+                if (char in substitution) {
+                    encryptedText += substitution[char];
+                } else {
+                    encryptedText += char;
+                }
+            }
+
+            document.getElementById("outputText").textContent = encryptedText;
+        }
+
+        function decrypt() {
+            const inputText = document.getElementById("inputText").value;
+            let decryptedText = '';
+
+            for (let char of inputText) {
+                if (char in substitution) {
+                    decryptedText += getKeyByValue(substitution, char);
+                } else {
+                    decryptedText += char;
+                }
+            }
+
+            document.getElementById("outputText").textContent = decryptedText;
+        }
+
+        // Fungsi untuk mendapatkan kunci berdasarkan nilai dalam dictionary
+        function getKeyByValue(object, value) {
+            return Object.keys(object).find(key => object[key] === value);
+        }
+    </script>
+</body>
+</html>
